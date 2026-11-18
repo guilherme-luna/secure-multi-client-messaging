@@ -1,3 +1,5 @@
+> **EN:** Multi-client chat with end-to-end encryption in Python. The server is a relay only: it authenticates the handshake and forwards public keys, so an honest server cannot decrypt messages. X25519 key exchange, AES-128-GCM, RSA-PSS signatures. Docker and CI included.
+
 <div align="center">
 
 # 🔐 Sistema de Mensageria Segura Multi-Cliente
