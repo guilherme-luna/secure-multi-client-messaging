@@ -51,6 +51,16 @@ Chat multi-cliente com **criptografia ponta-a-ponta (E2E)** em Python. O servido
 
 ---
 
+## 🧠 Por que essas primitivas
+
+- **X25519 (ECDHE):** chaves efêmeras por sessão dão *forward secrecy*: vazar uma chave depois não decifra mensagens antigas. Chaves de 32 B e troca rápida.
+- **HKDF-SHA256:** transforma o segredo ECDH em uma chave AES distinta por direção (`A2B`/`B2A`), com um `salt_AB` por par.
+- **AES-128-GCM (AEAD):** cifra e autentica na mesma operação. O AAD (`sender_id || recipient_id || seq_no`) amarra a mensagem ao remetente, ao destinatário e à posição, então adulterar qualquer campo invalida a tag.
+- **RSA-PSS + certificado pinado:** assina o handshake e os avisos `PEER_JOIN`/`PEER_LEAVE`, e o pin impede que um terceiro se passe pelo servidor. PSS é a forma de assinatura RSA com prova de segurança.
+- **`seq_no` monotônico:** barra replay e, junto do `IV_base` no nonce, evita reutilizar nonce no GCM.
+
+---
+
 ## 🧭 Como funciona
 
 ```mermaid
